@@ -1,0 +1,57 @@
+// Contenedor: sombra sigue la forma recortada (mejor que box-shadow con clip-path)
+.dex-header {
+  width: 100%;
+  padding: 0 0 10px;
+  filter: drop-shadow(0 3px 0 #0a0a0a) drop-shadow(0 10px 14px rgb(0 0 0 / 22%));
+}
+
+.dex-header__surface {
+  position: relative;
+  min-height: 118px;
+  padding: 18px 20px 28px;
+  background: #dc0a2d;
+  // Borde inferior “tapa Pokédex”: más rojo a la izquierda, escalón hacia la derecha
+  clip-path: polygon(
+    0 0,
+    100% 0,
+    100% 56%,
+    72% 56%,
+    52% 100%,
+    0 100%
+  );
+}
+
+.dex-header__lights {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 10px 12px;
+}
+
+.dex-header__lens {
+  flex-shrink: 0;
+  width: 46px;
+  height: 46px;
+  border-radius: 50%;
+  background: #0b67a3;
+  border: 3px solid #dedede;
+}
+
+.dex-header__led {
+  flex-shrink: 0;
+  width: 15px;
+  height: 15px;
+  border-radius: 50%;
+
+  &--red {
+    background: #a5001a;
+  }
+
+  &--yellow {
+    background: #d9bc19;
+  }
+
+  &--green {
+    background: #58a566;
+  }
+}
