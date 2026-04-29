@@ -1,3 +1,15 @@
-<div class="flex flex-col items-center justify-center">
-    <img src="assets/img/logo.svg" alt="Pokémon" />
-</div>
+<section class="mx-auto w-full max-w-5xl px-4 py-6">
+  <img src="assets/img/logo.svg" alt="Pokemon" class="mx-auto mb-8 h-auto w-52" />
+
+  @if (isLoading()) {
+    <p class="text-center text-slate-600">Cargando Pokemon...</p>
+  } @else if (hasError()) {
+    <p class="text-center text-red-600">No se pudo cargar la PokeAPI.</p>
+  } @else {
+    <div class="grid grid-cols-2 gap-4 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5">
+      @for (pokemon of pokemons(); track pokemon.id) {
+        <app-card [pokemon]="pokemon"></app-card>
+      }
+    </div>
+  }
+</section>
