@@ -11,6 +11,11 @@ export const routes: Routes = [
         loadComponent: () =>
           import('../pages/pokedex-all/pokedex-all').then((m) => m.PokedexAll),
       },
+      {
+        path: 'pokemon/:id',
+        loadComponent: () =>
+          import('../pages/pokemon-detail/pokemon-detail').then((m) => m.PokemonDetailPage),
+      },
     ],
   },
 ];
