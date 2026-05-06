@@ -1,6 +1,7 @@
 import { Component, OnInit, inject, signal } from '@angular/core';
 import { ActivatedRoute, RouterLink } from '@angular/router';
 import { PokeApiService, PokemonDetail } from '../../app/poke-api.service';
+import pokemonTypes from '../../constants/pokemon-types.json';
 
 @Component({
   selector: 'app-pokemon-detail',
@@ -11,6 +12,7 @@ import { PokeApiService, PokemonDetail } from '../../app/poke-api.service';
 export class PokemonDetailPage implements OnInit {
   private readonly route = inject(ActivatedRoute);
   private readonly pokeApiService = inject(PokeApiService);
+  private readonly typeColors = pokemonTypes as Record<string, string>;
 
   readonly pokemon = signal<PokemonDetail | null>(null);
   readonly isLoading = signal(true);
@@ -34,5 +36,9 @@ export class PokemonDetailPage implements OnInit {
         this.isLoading.set(false);
       },
     });
+  }
+
+  getTypeColor(type: string): string {
+    return this.typeColors[type] ?? '#1f2937';
   }
 }
