@@ -23,16 +23,15 @@
         class="mx-auto mb-4 h-40 w-40 object-contain"
       />
     </article>
-    <div class="mt-4 grid grid-cols-2 gap-3 text-sm">
+    <!-- <div class="mt-4 grid grid-cols-2 gap-3 text-sm">
       <p class="rounded-md bg-slate-100 p-2"><strong>Altura:</strong> {{ pokemon()!.height }}</p>
       <p class="rounded-md bg-slate-100 p-2"><strong>Peso:</strong> {{ pokemon()!.weight }}</p>
-    </div>
+    </div> -->
     <div class="mt-4">
-      <p class="mb-2 text-sm font-semibold text-slate-700">Tipos</p>
-      <div class="flex flex-wrap gap-2">
+      <div class="flex flex-wrap gap-2 justify-center">
         @for (type of pokemon()!.types; track type) {
           <span
-            class="rounded-full px-3 py-1 text-xs font-medium capitalize text-white"
+            class="w-[164px] text-center rounded-md px-3 py-1 text-md font-bold capitalize text-white shadow-[0px_4px_16px_rgba(17,17,26,0.1),0px_8px_24px_rgba(17,17,26,0.1),0px_16px_56px_rgba(17,17,26,0.1)]"
             [style.backgroundColor]="getTypeColor(type)"
           >
             {{ type }}
