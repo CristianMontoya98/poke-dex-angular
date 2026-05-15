@@ -1,12 +1,20 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { forkJoin, map, Observable, switchMap } from 'rxjs';
+import { forkJoin, map, Observable, of, switchMap } from 'rxjs';
 
 interface PokemonListResponse {
+  count: number;
   results: Array<{
     name: string;
     url: string;
   }>;
+}
+
+export interface PokemonListPage {
+  items: PokemonCard[];
+  totalCount: number;
+  limit: number;
+  offset: number;
 }
 
 interface PokemonDetailResponse {
@@ -45,23 +53,39 @@ export class PokeApiService {
 
   constructor(private readonly http: HttpClient) {}
 
-  getPokemonList(limit = 20): Observable<PokemonCard[]> {
+  getPokemonList(limit = 10, offset = 0): Observable<PokemonListPage> {
     return this.http
-      .get<PokemonListResponse>(`${this.baseUrl}/pokemon`, { params: { limit } })
+      .get<PokemonListResponse>(`${this.baseUrl}/pokemon`, {
+        params: { limit, offset },
+      })
       .pipe(
         switchMap((response) => {
+          if (response.results.length === 0) {
+            return of({
+              items: [] as PokemonCard[],
+              totalCount: response.count,
+              limit,
+              offset,
+            });
+          }
+
           const detailRequests = response.results.map((pokemon) =>
             this.http.get<PokemonDetailResponse>(pokemon.url),
           );
-          return forkJoin(detailRequests);
+
+          return forkJoin(detailRequests).pipe(
+            map((details) => ({
+              items: details.map((pokemon) => ({
+                id: pokemon.id,
+                name: pokemon.name,
+                image: pokemon.sprites.front_default,
+              })),
+              totalCount: response.count,
+              limit,
+              offset,
+            })),
+          );
         }),
-        map((details) =>
-          details.map((pokemon) => ({
-            id: pokemon.id,
-            name: pokemon.name,
-            image: pokemon.sprites.front_default,
-          })),
-        ),
       );
   }
 
