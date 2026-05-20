@@ -1,16 +1,27 @@
-@if (pokemon) {
-    <a
-        class="block rounded-lg border border-slate-200 bg-gradient-to-b from-[#264A81] to-[#478FB3] p-3 text-center shadow-sm transition hover:-translate-y-0.5 hover:shadow-md"
-        [routerLink]="['/pokemon', pokemon.id]"
-        >
-        <img
-            [src]="pokemon.image || 'assets/img/logo.svg'"
-            [alt]="pokemon.name"
-            class="mx-auto mb-2 h-40 w-40 object-contain"
-        />
-        <div class="flex items-center justify-center bg-[#242424] rounded-full p-1 gap-2">
-            <p class="text-md text-[#238E88]">#{{ pokemon.id }}</p>
-            <p class="font-semibold capitalize text-[#FFFFFF]">{{ pokemon.name }}</p>
-        </div>
-    </a>
+@if (skeleton) {
+  <div
+    class="block animate-pulse rounded-lg border border-slate-200/30 bg-gradient-to-b from-[#264A81]/60 to-[#478FB3]/60 p-3 text-center"
+    aria-hidden="true"
+  >
+    <div class="mx-auto mb-2 h-40 w-40 rounded-full bg-slate-400/40"></div>
+    <div class="mx-auto flex h-8 w-[85%] items-center justify-center gap-2 rounded-full bg-slate-400/50 p-1">
+      <div class="h-3 w-8 rounded bg-slate-400/60"></div>
+      <div class="h-3 flex-1 rounded bg-slate-400/60"></div>
+    </div>
+  </div>
+} @else if (pokemon) {
+  <a
+    class="block rounded-lg border border-slate-200 bg-gradient-to-b from-[#264A81] to-[#478FB3] p-3 text-center shadow-sm transition hover:-translate-y-0.5 hover:shadow-md"
+    [routerLink]="['/pokemon', pokemon.id]"
+  >
+    <img
+      [src]="pokemon.image || 'assets/img/logo.svg'"
+      [alt]="pokemon.name"
+      class="mx-auto mb-2 h-40 w-40 object-contain"
+    />
+    <div class="flex items-center justify-center gap-2 rounded-full bg-[#242424] p-1">
+      <p class="text-md text-[#238E88]">#{{ pokemon.id }}</p>
+      <p class="font-semibold capitalize text-[#FFFFFF]">{{ pokemon.name }}</p>
+    </div>
+  </a>
 }
