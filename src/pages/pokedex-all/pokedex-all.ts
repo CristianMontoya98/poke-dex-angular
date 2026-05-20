@@ -12,6 +12,7 @@ export class PokedexAll implements OnInit {
   private readonly pokeApiService = inject(PokeApiService);
 
   readonly pageSize = 10;
+  readonly skeletonSlots = Array.from({ length: 10 }, (_, index) => index);
   readonly pokemons = signal<PokemonCard[]>([]);
   readonly currentPage = signal(1);
   readonly totalCount = signal(0);
