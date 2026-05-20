@@ -10,4 +10,5 @@ import { PokemonCard } from '../../app/poke-api.service';
 })
 export class Card {
   @Input() pokemon: PokemonCard | null = null;
+  @Input() skeleton = false;
 }
