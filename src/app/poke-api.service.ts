@@ -22,6 +22,19 @@ interface PokemonDetailResponse {
   name: string;
   height: number;
   weight: number;
+  base_experience: number;
+  abilities: Array<{
+    ability: {
+      name: string;
+    };
+    is_hidden: boolean;
+  }>;
+  stats: Array<{
+    base_stat: number;
+    stat: {
+      name: string;
+    };
+  }>;
   types: Array<{
     type: {
       name: string;
@@ -44,6 +57,12 @@ export interface PokemonDetail {
   image: string | null;
   height: number;
   weight: number;
+  baseExperience: number;
+  abilities: string[];
+  stats: Array<{
+    name: string;
+    value: number;
+  }>;
   types: string[];
 }
 
@@ -97,6 +116,12 @@ export class PokeApiService {
         image: pokemon.sprites.front_default,
         height: pokemon.height,
         weight: pokemon.weight,
+        baseExperience: pokemon.base_experience,
+        abilities: pokemon.abilities.map((a) => a.ability.name),
+        stats: pokemon.stats.map((s) => ({
+          name: s.stat.name,
+          value: s.base_stat,
+        })),
         types: pokemon.types.map((entry) => entry.type.name),
       })),
     );
