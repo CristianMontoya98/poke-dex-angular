@@ -1,7 +1,11 @@
-import { Component, OnInit, inject, signal } from '@angular/core';
-import { ActivatedRoute, RouterLink } from '@angular/router';
-import { PokeApiService, PokemonDetail } from '../../app/poke-api.service';
+import { Component, OnInit, computed, inject, signal } from '@angular/core';
+import { ActivatedRoute, Router, RouterLink } from '@angular/router';
+import { PokeApiService, PokemonCard, PokemonDetail } from '../../app/poke-api.service';
 import pokemonTypes from '../../constants/pokemon-types.json';
+
+type PokemonPreviewState = {
+  pokemonPreview?: PokemonCard;
+};
 
 @Component({
   selector: 'app-pokemon-detail',
@@ -11,12 +15,16 @@ import pokemonTypes from '../../constants/pokemon-types.json';
 })
 export class PokemonDetailPage implements OnInit {
   private readonly route = inject(ActivatedRoute);
+  private readonly router = inject(Router);
   private readonly pokeApiService = inject(PokeApiService);
   private readonly typeColors = pokemonTypes as Record<string, string>;
 
   readonly pokemon = signal<PokemonDetail | null>(null);
+  readonly preview = signal<PokemonCard | null>(this.readPreviewFromNavigation());
   readonly isLoading = signal(true);
   readonly hasError = signal(false);
+
+  readonly displayPokemon = computed(() => this.pokemon() ?? this.preview());
 
   readonly statNames = [
     'hp',
@@ -85,5 +93,15 @@ export class PokemonDetailPage implements OnInit {
       .filter(Boolean)
       .map((w) => w[0].toUpperCase() + w.slice(1))
       .join(' ');
+  }
+
+  private readPreviewFromNavigation(): PokemonCard | null {
+    const navState = this.router.getCurrentNavigation()?.extras.state as PokemonPreviewState | null;
+    if (navState?.pokemonPreview) {
+      return navState.pokemonPreview;
+    }
+
+    const historyState = history.state as PokemonPreviewState | null;
+    return historyState?.pokemonPreview ?? null;
   }
 }
