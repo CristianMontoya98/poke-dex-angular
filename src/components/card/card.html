@@ -13,15 +13,22 @@
   <a
     class="block rounded-lg border border-slate-200 bg-gradient-to-b from-[#264A81] to-[#478FB3] p-3 text-center shadow-sm transition hover:-translate-y-0.5 hover:shadow-md"
     [routerLink]="['/pokemon', pokemon.id]"
+    [state]="{ pokemonPreview: pokemon }"
   >
     <img
       [src]="pokemon.image || 'assets/img/logo.svg'"
       [alt]="pokemon.name"
       class="mx-auto mb-2 h-40 w-40 object-contain"
+      [style.view-transition-name]="'pokemon-image-' + pokemon.id"
     />
     <div class="flex items-center justify-center gap-2 rounded-full bg-[#242424] p-1">
       <p class="text-md text-[#238E88]">#{{ pokemon.id }}</p>
-      <p class="font-semibold capitalize text-[#FFFFFF]">{{ pokemon.name }}</p>
+      <p
+        class="font-semibold capitalize text-[#FFFFFF]"
+        [style.view-transition-name]="'pokemon-name-' + pokemon.id"
+      >
+        {{ pokemon.name }}
+      </p>
     </div>
   </a>
 }
